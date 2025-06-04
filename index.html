@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SkillMaster Pro - Soft Skills Learning Platform</title>
+    <title>Roshdino - Soft Skills Learning Platform</title>
     <style>
         * {
             margin: 0;
@@ -520,7 +520,7 @@
     <!-- Login Page -->
     <div id="loginPage" class="login-container">
         <div class="login-form">
-            <h1>🐬 SkillMaster Pro</h1>
+            <h1>🐬 Roshdino</h1>
             <p style="margin-bottom: 30px; color: #718096;">Welcome to the ultimate soft skills learning platform</p>
             
             <div class="form-group">
@@ -550,7 +550,7 @@
         <div class="container">
             <!-- Header -->
             <div class="header">
-                <div class="logo">🐬 SkillMaster Pro</div>
+                <div class="logo">🐬 Roshdino</div>
                 <div class="user-info">
                     <div class="notification-bell" onclick="showNotification()">🔔</div>
                     <div class="points-display" id="userPoints">⭐ 2,450 Points</div>
@@ -681,6 +681,23 @@
                             <div>2,156 pts</div>
                         </div>
                     </div>
+                    <!-- Manager-Only Full Leaderboard -->
+<div id="fullLeaderboard" class="card" style="display: none;">
+    <h3>📋 All Users and Points</h3>
+    <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+        <thead>
+            <tr style="background: #065f46; color: white;">
+                <th style="padding: 10px; border: 1px solid #ccc;">#</th>
+                <th style="padding: 10px; border: 1px solid #ccc;">Name</th>
+                <th style="padding: 10px; border: 1px solid #ccc;">Points</th>
+            </tr>
+        </thead>
+        <tbody id="allUsersTableBody">
+            <!-- Populated by JavaScript -->
+        </tbody>
+    </table>
+</div>
+
                 </div>
             </div>
 
@@ -758,6 +775,32 @@
     </div>
 
     <script>
+    const allUsers = [
+    { name: "Sarah Chen", points: 3890 },
+    { name: "Mike Johnson", points: 3567 },
+    { name: "Alex Rivera", points: 2450 },
+    { name: "Emma Wilson", points: 2234 },
+    { name: "David Lee", points: 2156 },
+    { name: "Nina Patel", points: 2088 },
+    { name: "John Smith", points: 1995 },
+    { name: "Linda Zhao", points: 1870 }
+];
+
+function populateFullLeaderboard() {
+    const tbody = document.getElementById('allUsersTableBody');
+    tbody.innerHTML = '';
+    
+    allUsers.forEach((user, index) => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td style="padding: 10px; border: 1px solid #ccc;">${index + 1}</td>
+            <td style="padding: 10px; border: 1px solid #ccc;">${user.name}</td>
+            <td style="padding: 10px; border: 1px solid #ccc;">${user.points.toLocaleString()}</td>
+        `;
+        tbody.appendChild(row);
+    });
+}
+
         let currentUser = 'Alex';
         let currentLoginRole = 'User';
         let currentGameRole = '';
@@ -874,9 +917,12 @@ function login() {
         // Show/hide tabs based on role
         if (role === 'manager') {
             document.getElementById('reportsTab').style.display = 'inline-block';
+            document.getElementById('fullLeaderboard').style.display = 'block';
             document.querySelector('[onclick="showTab(\'game\')"]').style.display = 'none';
+            populateFullLeaderboard();
         } else if (role === 'user') {
             document.getElementById('reportsTab').style.display = 'none';
+            document.getElementById('fullLeaderboard').style.display = 'none';
             document.querySelector('[onclick="showTab(\'game\')"]').style.display = 'inline-block';
         }
 
